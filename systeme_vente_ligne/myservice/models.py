@@ -50,7 +50,7 @@ class Commande(models.Model):
   client = models.ForeignKey(Client,on_delete=models.CASCADE)
 
   def __str__(self):
-    return self.id 
+    return self.etat 
 
 
 class LigneCommande(models.Model):
@@ -59,11 +59,12 @@ class LigneCommande(models.Model):
   produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
   quantite = models.IntegerField()
   montant = models.FloatField()
-  def montant(self):
-        self.montant = self.produit.prix * self.quantite
+  
+  def __str__(self):
+    return self.produit.nom 
 
 
-class RetourProduit(models.Model):
+class RetourProduit(models.Model): # remboursement
   id = models.AutoField(primary_key=True)
   produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
   quantite = models.IntegerField()

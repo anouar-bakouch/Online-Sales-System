@@ -27,7 +27,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'myservice',
     'rest_framework',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -71,8 +70,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'systeme_vente_ligne',
-        'USER': 'anouar',
-        'PASSWORD': 'anouar2023[]',
+        'USER': 'anouar', # a modifier
+        'PASSWORD': 'anouar2023[]', # a modifier
         'HOST': 'localhost',
         'PORT': '5432',
     }

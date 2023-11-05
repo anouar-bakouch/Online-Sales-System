@@ -132,25 +132,25 @@ class CommandeSerializer(serializers.ModelSerializer):
     def delete(self, instance):
         instance.delete()
 
+
+
 class LigneCommandeSerializer(serializers.ModelSerializer):
     class Meta:
         model = LigneCommande
         fields = ('id', 'commande', 'produit', 'quantite', 'montant')
 
     def create(self, validated_data):
-        # Save the commande and produit objects
-        commande = validated_data['commande']
         produit = validated_data['produit']
+        quantite = validated_data['quantite']
+        montant = produit.prix * quantite
 
-        # Calculate the montant field
-        montant = produit.prix * validated_data['quantite']
+        validated_data['montant'] = montant
+        return LigneCommande.objects.create(**validated_data)
 
-        # Create the LigneCommande object
-        ligne_commande = LigneCommande.objects.create(commande=commande, produit=produit, quantite=validated_data['quantite'], montant=montant)
+    def delete(self, instance):
+        instance.delete()
 
-        return ligne_commande
-
-    def update(self, instance, validated_data):
+    def put(self, instance, validated_data):
         # Update the commande and produit objects
         instance.commande = validated_data['commande']
         instance.produit = validated_data['produit']
@@ -166,8 +166,7 @@ class LigneCommandeSerializer(serializers.ModelSerializer):
 
         return instance
 
-    def delete(self, instance):
-        instance.delete()
+ 
 
 class RetourProduitSerializer(serializers.ModelSerializer):
     produit = ProduitSerializer()

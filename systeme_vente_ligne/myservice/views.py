@@ -2,8 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Client , Produit , Commande , ModePaiement , LigneCommande , Adresse , RetourProduit
-from .serializers import ClientSerializer , ProduitSerializer , ModePaiementSerializer , LigneCommandeSerializer , AdresseSerializer , RetourProduitSerializer
-
+from .serializers import ClientSerializer , ProduitSerializer , ModePaiementSerializer , LigneCommandeSerializer , AdresseSerializer , RetourProduitSerializer , CommandeSerializer
 
 def index(request):
 
@@ -188,9 +187,14 @@ class LigneCommandeAPIView(APIView):
         """
         serializer = LigneCommandeSerializer(data=request.data)
         if serializer.is_valid():
+            # Update the montant field
+            montant = serializer.validated_data['produit'].prix * serializer.validated_data['quantite']
+            serializer.validated_data['montant'] = montant
+
             serializer.save()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
+
 
     def delete(self, request, pk):
         """
