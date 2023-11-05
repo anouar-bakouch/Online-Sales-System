@@ -17,9 +17,15 @@ class Adresse(models.Model):
   code_postal = models.CharField(max_length=255)
   ville = models.CharField(max_length=255)
 
+  def __str__(self):
+    return self.adresse
+
 class ModePaiement(models.Model):
   id = models.AutoField(primary_key=True)
   nom = models.CharField(max_length=255)
+
+  def __str__(self):
+    return self.nom
 
 class Client(models.Model):
   id = models.AutoField(primary_key=True)
