@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Client , Produit , Commande , ModePaiement , LigneCommande , Adresse , RetourProduit
 from .serializers import ClientSerializer , ProduitSerializer , ModePaiementSerializer , LigneCommandeSerializer , AdresseSerializer , RetourProduitSerializer
-# Create your views here.
+
 
 def index(request):
 
