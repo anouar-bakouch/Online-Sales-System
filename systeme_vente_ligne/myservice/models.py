@@ -13,7 +13,7 @@ class Commande(models.Model):
   date = models.DateTimeField()
   montant = models.FloatField()
   etat = models.CharField(max_length=255)
-  client = models.ForeignKey(client,on_delete=models.CASCADE)
+  client = models.ForeignKey(Client,on_delete=models.CASCADE)
 
 
 class Client(models.Model):
