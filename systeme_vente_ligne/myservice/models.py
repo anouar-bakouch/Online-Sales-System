@@ -41,7 +41,6 @@ class Client(models.Model):
 class Commande(models.Model):
   id = models.AutoField(primary_key=True)
   date = models.DateTimeField()
-  montant = models.FloatField()
   etat = models.CharField(max_length=255,choices=[
         ('en cours de traitement', 'En cours de traitement'),
         ('expédiée', 'Expédiée'),
@@ -59,6 +58,9 @@ class LigneCommande(models.Model):
   commande = models.ForeignKey(Commande, on_delete=models.CASCADE)
   produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
   quantite = models.IntegerField()
+  montant = models.FloatField()
+  def montant(self):
+        self.montant = self.produit.prix * self.quantite
 
 
 class RetourProduit(models.Model):

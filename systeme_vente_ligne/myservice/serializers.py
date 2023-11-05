@@ -107,7 +107,7 @@ class CommandeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Commande
-        fields = ('id', 'date', 'montant', 'etat', 'client')
+        fields = ('id', 'date', 'etat', 'client')
 
     def create(self, validated_data):
         client = validated_data.pop('client')
@@ -133,36 +133,37 @@ class CommandeSerializer(serializers.ModelSerializer):
         instance.delete()
 
 class LigneCommandeSerializer(serializers.ModelSerializer):
-    commande = CommandeSerializer()
-    produit = ProduitSerializer()
-
     class Meta:
         model = LigneCommande
-        fields = ('id', 'commande', 'produit', 'quantite')
+        fields = ('id', 'commande', 'produit', 'quantite', 'montant')
 
     def create(self, validated_data):
-        commande = validated_data.pop('commande')
-        produit = validated_data.pop('produit')
+        # Save the commande and produit objects
+        commande = validated_data['commande']
+        produit = validated_data['produit']
 
-        commande = Commande.objects.get_or_create(**commande)[0]
-        produit = Produit.objects.get_or_create(**produit)[0]
+        # Calculate the montant field
+        montant = produit.prix * validated_data['quantite']
 
-        ligne_commande = LigneCommande.objects.create(commande=commande, produit=produit, **validated_data)
+        # Create the LigneCommande object
+        ligne_commande = LigneCommande.objects.create(commande=commande, produit=produit, quantite=validated_data['quantite'], montant=montant)
 
         return ligne_commande
 
     def update(self, instance, validated_data):
-        commande = validated_data.pop('commande')
-        produit = validated_data.pop('produit')
+        # Update the commande and produit objects
+        instance.commande = validated_data['commande']
+        instance.produit = validated_data['produit']
 
-        commande = Commande.objects.get_or_create(**commande)[0]
-        produit = Produit.objects.get_or_create(**produit)[0]
+        # Calculate the montant field
+        montant = instance.produit.prix * validated_data['quantite']
 
-        instance.commande = commande
-        instance.produit = produit
-        for field, value in validated_data.items():
-            setattr(instance, field, value)
+        # Update the LigneCommande object
+        instance.quantite = validated_data['quantite']
+        instance.montant = montant
+
         instance.save()
+
         return instance
 
     def delete(self, instance):
