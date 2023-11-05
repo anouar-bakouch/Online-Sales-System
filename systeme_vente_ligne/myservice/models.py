@@ -42,7 +42,12 @@ class Commande(models.Model):
   id = models.AutoField(primary_key=True)
   date = models.DateTimeField()
   montant = models.FloatField()
-  etat = models.CharField(max_length=255)
+  etat = models.CharField(max_length=255,choices=[
+        ('en cours de traitement', 'En cours de traitement'),
+        ('expédiée', 'Expédiée'),
+        ('livrée', 'Livrée'),
+        ('annulée', 'Annulée')
+    ])
   client = models.ForeignKey(Client,on_delete=models.CASCADE)
 
   def __str__(self):
