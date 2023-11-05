@@ -6,6 +6,7 @@ class Produit(models.Model):
   nom = models.CharField(max_length=255)
   description = models.TextField()
   prix = models.FloatField()
+  stock = models.IntegerField()
 
 class Commande(models.Model):
   id = models.AutoField(primary_key=True)
@@ -44,5 +45,6 @@ class ModePaiement(models.Model):
 class RetourProduit(models.Model):
   id = models.AutoField(primary_key=True)
   produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
+  quantite = models.IntegerField()
   etat = models.CharField(max_length=255)
 
