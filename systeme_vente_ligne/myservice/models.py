@@ -8,28 +8,6 @@ class Produit(models.Model):
   prix = models.FloatField()
   stock = models.IntegerField()
 
-class Commande(models.Model):
-  id = models.AutoField(primary_key=True)
-  date = models.DateTimeField()
-  montant = models.FloatField()
-  etat = models.CharField(max_length=255)
-  client = models.ForeignKey(Client,on_delete=models.CASCADE)
-
-
-class Client(models.Model):
-  id = models.AutoField(primary_key=True)
-  nom = models.CharField(max_length=255)
-  email = models.EmailField()
-  adresses = models.ManyToManyField(Adresse)
-  modes_paiement = models.ManyToManyField(ModePaiement)
-  points_fidelite = models.IntegerField()
-
-class LigneCommande(models.Model):
-  id = models.AutoField(primary_key=True)
-  commande = models.ForeignKey(Commande, on_delete=models.CASCADE)
-  produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
-  quantite = models.IntegerField()
-
 class Adresse(models.Model):
   id = models.AutoField(primary_key=True)
   nom = models.CharField(max_length=255)
@@ -41,6 +19,29 @@ class Adresse(models.Model):
 class ModePaiement(models.Model):
   id = models.AutoField(primary_key=True)
   nom = models.CharField(max_length=255)
+
+class Client(models.Model):
+  id = models.AutoField(primary_key=True)
+  nom = models.CharField(max_length=255)
+  email = models.EmailField()
+  adresses = models.ManyToManyField(Adresse)
+  modes_paiement = models.ManyToManyField(ModePaiement)
+  points_fidelite = models.IntegerField()
+
+class Commande(models.Model):
+  id = models.AutoField(primary_key=True)
+  date = models.DateTimeField()
+  montant = models.FloatField()
+  etat = models.CharField(max_length=255)
+  client = models.ForeignKey(Client,on_delete=models.CASCADE)
+
+
+class LigneCommande(models.Model):
+  id = models.AutoField(primary_key=True)
+  commande = models.ForeignKey(Commande, on_delete=models.CASCADE)
+  produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
+  quantite = models.IntegerField()
+
 
 class RetourProduit(models.Model):
   id = models.AutoField(primary_key=True)
