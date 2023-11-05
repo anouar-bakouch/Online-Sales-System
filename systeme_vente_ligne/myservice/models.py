@@ -13,8 +13,6 @@ class Produit(models.Model):
 
 class Adresse(models.Model):
   id = models.AutoField(primary_key=True)
-  nom = models.CharField(max_length=255)
-  prenom = models.CharField(max_length=255)
   adresse = models.CharField(max_length=255)
   code_postal = models.CharField(max_length=255)
   ville = models.CharField(max_length=255)

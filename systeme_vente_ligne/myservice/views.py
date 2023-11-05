@@ -73,6 +73,35 @@ class ProduitAPIView(APIView):
         return Response(status=204)
 
 # Commande 
+class CommandeAPIView(APIView):
+    """
+    API view for the `Commande` model.
+    """
 
+    def get(self, request):
+        """
+        Get all commandes.
+        """
+        commandes = Commande.objects.all()
+        serializer = CommandeSerializer(commandes, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        """
+        Create a new commande.
+        """
+        serializer = CommandeSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+    def delete(self, request, pk):
+        """
+        Delete an existing commande.
+        """
+        commande = Commande.objects.get(pk=pk)
+        commande.delete()
+        return Response(status=204)
 
 # Retour Produit 

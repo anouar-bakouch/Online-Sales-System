@@ -22,7 +22,7 @@ class ProduitSerializer(serializers.ModelSerializer):
 class AdresseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Adresse
-        fields = ('id', 'nom', 'prenom', 'adresse', 'code_postal', 'ville')
+        fields = ('id', 'adresse', 'code_postal', 'ville')
 
     def create(self, validated_data):
         address = Adresse.objects.create(**validated_data)
