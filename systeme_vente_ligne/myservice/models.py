@@ -8,6 +8,9 @@ class Produit(models.Model):
   prix = models.FloatField()
   stock = models.IntegerField()
 
+  def __str__(self):
+    return self.nom
+
 class Adresse(models.Model):
   id = models.AutoField(primary_key=True)
   nom = models.CharField(max_length=255)
@@ -28,12 +31,18 @@ class Client(models.Model):
   modes_paiement = models.ManyToManyField(ModePaiement)
   points_fidelite = models.IntegerField()
 
+  def __str__(self):
+    return self.nom
+
 class Commande(models.Model):
   id = models.AutoField(primary_key=True)
   date = models.DateTimeField()
   montant = models.FloatField()
   etat = models.CharField(max_length=255)
   client = models.ForeignKey(Client,on_delete=models.CASCADE)
+
+  def __str__(self):
+    return self.id 
 
 
 class LigneCommande(models.Model):
